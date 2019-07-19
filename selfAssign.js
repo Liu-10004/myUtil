@@ -1,3 +1,4 @@
+// assgin 是一种浅拷贝
 const selfAssgin = function (target,...args) {
 
   return args.reduce((pre,cur)=>{

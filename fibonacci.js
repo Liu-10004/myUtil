@@ -49,8 +49,3 @@ console.log(res(8))
 console.log(res1)
 console.log(res2)
 console.log(res3)
-
-function f(n,a=1,b=1){
-  if(n===1) return a;
-  return f(n-1,a+b,a)
-}
