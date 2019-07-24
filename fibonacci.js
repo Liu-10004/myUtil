@@ -49,3 +49,17 @@ console.log(res(8))
 console.log(res1)
 console.log(res2)
 console.log(res3)
+
+function f(count){
+  return {
+    a:function(){
+      return ++count;
+    },
+    b:(function(i){return i})(count)
+  }
+}
+var obj = f(5);
+console.log(obj.a())
+console.log(obj.b)
+console.log(obj.a())
+console.log(obj.b)

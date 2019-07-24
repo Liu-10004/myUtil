@@ -5,12 +5,12 @@ function curry(fn){
   return g;
 }
 
-let add = (a,b,c,d) => a+b+c+d
+let add = (a,b,c,d,e) => a+b+c+d
 
 
 const curriedAdd = curry(add);
 
-let r = curriedAdd(1)(2)(3)(4)
+let r = curriedAdd(1,2,3,4,5);
 console.log(r);
 
 
@@ -49,3 +49,9 @@ console.log("partialFunc", partialDisplay(3, 4, 5, 6, 7, 8))
 
 let partialDisplay2 = partialFunc(display, '_', 2, '_')
 console.log('partialFunc2', partialDisplay2(1, 3, 4, 5, 6, 7, 8))
+
+
+function curry1(fn){
+  if(fn.length == 1) return fn;
+  const g = (...args) => args.length === fn.length ? fn(...args) : (...args2) => g(...args,...args2)
+}
