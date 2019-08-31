@@ -10,48 +10,37 @@ let add = (a,b,c,d,e) => a+b+c+d
 
 const curriedAdd = curry(add);
 
-let r = curriedAdd(1,2,3,4,5);
-console.log(r);
+let r = curriedAdd(1,2);
+let res = r(3,4,5)
+console.log(res);
 
-
-const curry1 = (fn,placeholder='_') => {
-
-}
-
-/**
- * 
- * @param {Function} func 一部分求值的函数
- * @param  {...any} args 求值的参数
- * @returns {Function} 求值后的函数
- */
-const partialFunc = (func, ...args) => {
-  let placeholderNum = 0
-  return (...args2) => {
-      args2.forEach(arg => {
-          let index = args.findIndex(item => item === "_")
-          if (index < 0) return
-          args[index] = arg
-          placeholderNum++
-      })
-      if (placeholderNum < args2.length) {
-          args2 = args2.slice(placeholderNum, args2.length)
-      }
-      return func.apply(this, [...args, ...args2])
+function curry1(fn,args=[]){
+  let len = fn.length;
+  return (...arg1)=> {
+    args.push(...arg1) 
+    if(args.length < len){
+      return curry1(fn,args) 
+    }else{
+       return  fn(...args);
+    }
   }
 }
 
-const display = (a, b, c, d, e, f, g, h) => [a, b, c, d, e, f, g, h];
+//反柯理化函数
 
+let add1 = a=>b=>c=>d=>{
+  return a+b+c+d;
+}
+let rrr = uncurry(add1)(1,2,3,4)
+console.log(rrr)
+function uncurry(fn){
+  return (...arg) => arg.reduce((pre,cur)=>{
+    return pre(cur)
+  },fn)
+  
 
-let partialDisplay = partialFunc(display, 1, 2)
-console.log("partialFunc", partialDisplay(3, 4, 5, 6, 7, 8))
-
-
-let partialDisplay2 = partialFunc(display, '_', 2, '_')
-console.log('partialFunc2', partialDisplay2(1, 3, 4, 5, 6, 7, 8))
-
-
-function curry1(fn){
-  if(fn.length == 1) return fn;
-  const g = (...args) => args.length === fn.length ? fn(...args) : (...args2) => g(...args,...args2)
+  // return f()
+  return (...arg) =>{
+    return fn(arg[0])(arg[1])(arg[2])(arg[3]);
+  }
 }
